@@ -2,6 +2,7 @@ package com.cv.aggregator;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +26,12 @@ public class NewsArticleList extends ArrayList<NewsArticle>{
 		{
 			JSONObject headline = (JSONObject)headlinesArray.get(i);
 			this.add(jsonMapper.readValue(headline.toString(), NewsArticle.class));
+		}
+	}
+	
+	public NewsArticleList(Collection<String> stringArticles) throws JsonParseException, JsonMappingException, IOException{
+		for(String article : stringArticles){
+			this.add(jsonMapper.readValue(article, NewsArticle.class));
 		}
 	}
 }

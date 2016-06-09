@@ -1,0 +1,3 @@
+include ':DBIO'
+
+project(":DBIO").projectDir = new File(rootDir, "../DBIO")
