@@ -1,4 +1,4 @@
-package com.cv.analyzer;
+package com.cv.analyzer.alchemy;
 
 public class AlchemyAPIKey {
 	private final String key;

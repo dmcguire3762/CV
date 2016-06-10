@@ -1,15 +1,23 @@
-package com.cv.analyzer;
+package com.cv.analyzer.alchemy;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.json.JSONObject;
+
+import com.cv.analyzer.ArticleAnalysis;
+import com.cv.analyzer.KeywordList;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.RestAssured;
 
 public class AlchemyService {
 	private final static String alchemyBaseUrl = "http://gateway-a.watsonplatform.net/calls/url/";
 	private final static String alchemyKeywordServiceUrl = "URLGetRankedKeywords";
 	private final static int transactionLimit = 1000;
+	private static ObjectMapper jsonMapper = new ObjectMapper();
 	
 	private static List<AlchemyAPIKey> alchemyAPIKeys = new ArrayList<AlchemyAPIKey>();
 	static{
@@ -74,9 +82,11 @@ public class AlchemyService {
 		}
 	}
 	
-	public void getAlchemyArticleAnalysis(ArticleAnalysis articleAnalysis){
+	public void getAlchemyArticleAnalysis(ArticleAnalysis articleAnalysis) throws JsonParseException, JsonMappingException, IOException{
 		String formattedURL = getAlchemyUrl(articleAnalysis.getUrl());
-		String alchemyResponse = RestAssured.get(formattedURL).body().asString();
-		System.out.println(alchemyResponse);
+		JSONObject alchemyResponse = new JSONObject(RestAssured.get(formattedURL).body().asString());
+		String keywords = alchemyResponse.getJSONArray("keywords").toString();
+		System.out.println(keywords);
+		articleAnalysis.setKeywords(jsonMapper.readValue(keywords, KeywordList.class));
 	}
 }

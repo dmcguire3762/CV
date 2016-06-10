@@ -2,7 +2,7 @@ package com.cv.analyzer;
 
 public class Keyword {
 	private double relevance;
-	private String keywordText;
+	private String text;
 	private Sentiment sentiment;
 	
 	public double getRelevance() {
@@ -11,11 +11,11 @@ public class Keyword {
 	public void setRelevance(double relevance) {
 		this.relevance = relevance;
 	}
-	public String getKeywordText() {
-		return keywordText;
+	public String getText() {
+		return text;
 	}
-	public void setKeywordText(String keywordText) {
-		this.keywordText = keywordText;
+	public void setText(String text) {
+		this.text = text;
 	}
 	public Sentiment getSentiment() {
 		return sentiment;

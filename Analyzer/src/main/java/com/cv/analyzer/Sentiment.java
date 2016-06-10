@@ -3,7 +3,14 @@ package com.cv.analyzer;
 public class Sentiment {
 	private double score;
 	private String type; // positive, neutral, or negative
+	private int mixed;
 	
+	public int getMixed() {
+		return mixed;
+	}
+	public void setMixed(int mixed) {
+		this.mixed = mixed;
+	}
 	public double getScore() {
 		return score;
 	}
