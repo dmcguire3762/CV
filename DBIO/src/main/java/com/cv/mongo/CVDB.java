@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.bson.Document;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoWriteException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -54,14 +55,15 @@ public class CVDB{
 			MongoDatabase db = mongo.getDatabase(dbName);
 			MongoCollection<Document> collection = db.getCollection(collectionName);
 			
-			switch(op){
-				case insert:
-					collection.insertMany(insertObjects);
-					insertObjects.clear();
-					break;
-				default:
-					break;
+			for(Document doc : insertObjects){
+				try{
+					collection.insertOne(doc);
+				} catch (MongoWriteException e){
+					System.out.println("Failed to insert doc - most likely a duplicate:" + doc.toJson());
+				}
 			}
+			
+			insertObjects.clear();
 		}
 	}
 	

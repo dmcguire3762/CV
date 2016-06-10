@@ -14,9 +14,9 @@ public class ArticleAnalysisList extends ArrayList<ArticleAnalysis>{
 	
 	public ArticleAnalysisList() throws JsonParseException, JsonMappingException, IOException, InterruptedException{
 		CVDB db = new CVDB("articles");
-		System.out.println("Retrieving articles from mongoDB...");
+		System.out.println("Retrieving articles from mongoDB");
 		List<String> articleStrings = db.findObjects();
-		System.out.println("De-Serializing articles...");
+		System.out.println("De-Serializing " + articleStrings.size() + "articles");
 		for(String articleString : articleStrings){
 			this.add(jsonMapper.readValue(articleString, ArticleAnalysis.class));
 		}
