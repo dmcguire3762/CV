@@ -3,6 +3,7 @@ package com.cv.aggregator;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 
 import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
@@ -47,7 +48,6 @@ public class NewsArticle {
 	@JsonProperty("Url")
 	public void setUrl(String url) {
 		this.url = url;
-		readUrl();
 	}
 	public String getSource() {
 		return source;
@@ -61,7 +61,7 @@ public class NewsArticle {
 		return text;
 	}
 	
-	private void readUrl(){
+	public void parseUrl(){
 		if(url == null){
 			return;
 		}
@@ -69,7 +69,10 @@ public class NewsArticle {
 		String html = "";
 		InputStream in = null;
 		try{
-			in = new URL(url).openStream();
+			URLConnection conn = new URL(url).openConnection();
+			conn.setConnectTimeout(30000);
+			conn.setReadTimeout(30000);
+			in = conn.getInputStream();
 			html = IOUtils.toString(in);
 			
 			text = PlainTextParser.html2PlainText(html);

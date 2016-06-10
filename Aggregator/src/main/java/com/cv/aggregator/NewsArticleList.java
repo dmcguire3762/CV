@@ -13,10 +13,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class NewsArticleList extends ArrayList<NewsArticle>{
 	private ObjectMapper jsonMapper = new ObjectMapper();
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5679988694872432171L;
 
 	
