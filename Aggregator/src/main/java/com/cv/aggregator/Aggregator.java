@@ -25,7 +25,7 @@ public class Aggregator {
 				System.out.println("Retrieved " + newsArticles.size() + " from xignite");
 				System.out.println("Publishing articles to db...");
 				for(NewsArticle article : newsArticles){
-					article.parseUrl();
+					//article.parseUrl();
 					articleDB.addToBatch(mapper.writeValueAsString(article), CVDB.Operation.insert);
 					articleArchiveDB.addToBatch(mapper.writeValueAsString(article), CVDB.Operation.insert);
 				}

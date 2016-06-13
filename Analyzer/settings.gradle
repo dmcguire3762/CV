@@ -1,0 +1,5 @@
+include ':DBIO'
+include ':Aggregator'
+
+project(":DBIO").projectDir = new File(rootDir, "../DBIO")
+project(":Aggregator").projectDir = new File(rootDir, "../Aggregator")

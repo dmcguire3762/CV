@@ -1,12 +1,14 @@
 package com.cv.analyzer;
-import java.util.List;
 
 import com.cv.aggregator.NewsArticle;
 
 public class ArticleAnalysis extends NewsArticle{
 	private KeywordList keywords;
 
-	public List<Keyword> getKeywords() {
+	public KeywordList getKeywords() {
+		if(keywords == null){
+			keywords = new KeywordList();
+		}
 		return keywords;
 	}
 

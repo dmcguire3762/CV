@@ -4,12 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.json.JSONException;
 import org.json.JSONObject;
-
 import com.cv.analyzer.ArticleAnalysis;
 import com.cv.analyzer.KeywordList;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.RestAssured;
 
@@ -35,6 +33,7 @@ public class AlchemyService {
 			if(tranCount > transactionLimit){
 				iter.remove();
 			} else {
+				System.out.println("Initial transaction count for key: " + apiKey.getKey() + " is " + tranCount);
 				apiKey.setTransactionCount(tranCount);
 			}
 		}
@@ -82,11 +81,19 @@ public class AlchemyService {
 		}
 	}
 	
-	public void getAlchemyArticleAnalysis(ArticleAnalysis articleAnalysis) throws JsonParseException, JsonMappingException, IOException{
+	public void getAlchemyArticleAnalysis(ArticleAnalysis articleAnalysis) throws IOException{
 		String formattedURL = getAlchemyUrl(articleAnalysis.getUrl());
+		if(formattedURL == null){
+			throw new RuntimeException("Out of alchemy api calls");
+		}
 		JSONObject alchemyResponse = new JSONObject(RestAssured.get(formattedURL).body().asString());
-		String keywords = alchemyResponse.getJSONArray("keywords").toString();
-		System.out.println(keywords);
-		articleAnalysis.setKeywords(jsonMapper.readValue(keywords, KeywordList.class));
+		String keywords = "";
+		try{
+			keywords = alchemyResponse.getJSONArray("keywords").toString();
+			System.out.println(keywords);
+			articleAnalysis.setKeywords(jsonMapper.readValue(keywords, KeywordList.class));
+		} catch (JSONException e){
+			System.out.println("No keywords found for article: " + articleAnalysis.getUrl());
+		}
 	}
 }

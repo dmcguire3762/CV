@@ -23,4 +23,21 @@ dependencies{
 	
 	// http://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
 	compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.2.2'
+	
+	// project dependency on DBIO
+	compile project(':DBIO')
+	
+	// project dependency on Aggregator
+	compile project(':Aggregator')
+}
+
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Analyzer',  
+        	'Implementation-Version': 1.0,
+        	'Main-Class': 'com.cv.analyzer.Analyzer'
+    }
+    baseName = project.name
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
 }

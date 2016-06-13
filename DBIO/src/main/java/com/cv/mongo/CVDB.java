@@ -82,4 +82,13 @@ public class CVDB{
 			return objects;
 		}
 	}
+	
+	public void clearCollection() {
+		try(MongoClient mongo = new MongoClient(dbUrl, dbPort)){
+			MongoDatabase db = mongo.getDatabase(dbName);
+			MongoCollection<Document> collection = db.getCollection(collectionName);
+			
+			collection.deleteMany(new Document());
+		}
+	}
 }
