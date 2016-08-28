@@ -26,9 +26,9 @@ public class TestNewsCRUD {
 		
 		db.executeBatch(CVDB.Operation.insert);
 		
-		NewsArticleList articlesFromDB = new NewsArticleList(db.findObjects());
+		/*NewsArticleList articlesFromDB = new NewsArticleList(db.findObjects());
 		for(NewsArticle article : articlesFromDB){
 			System.out.println(mapper.writeValueAsString(article));
-		}
+		}*/
 	}
 }
